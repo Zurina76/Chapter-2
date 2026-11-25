@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Mathematics | Chapter 2 Quiz</title>
+<style>
+:root{--navy:#17365d;--blue:#2f75b5;--teal:#008080;--gold:#e2ad30;--bg:#f3f6fa;--ink:#263238;--muted:#667085;--green:#548235}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+.wrap{max-width:900px;margin:28px auto;padding:16px}.hero{background:var(--navy);color:#fff;padding:26px 28px;border-radius:16px 16px 0 0}
+.hero h1{margin:0 0 8px;font-size:27px}.hero p{margin:0;color:#d9e6f2}
+.panel{background:#fff;padding:24px 28px;border-radius:0 0 16px 16px;box-shadow:0 8px 28px #17365d14}
+.meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}.pill{background:#eaf1f8;color:var(--navy);padding:8px 12px;border-radius:30px;font-weight:bold;font-size:13px}
+label{display:block;font-weight:bold;margin:12px 0 6px}input[type=text],input[type=email]{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:16px}
+.progress{height:9px;background:#e5eaf0;border-radius:10px;overflow:hidden;margin:20px 0 8px}.bar{height:100%;width:0;background:var(--teal);transition:width .2s}
+.qtop{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;font-weight:bold;margin-top:20px}
+.question{font-size:21px;line-height:1.4;font-weight:bold;margin:18px 0}
+.option{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid #d8e0e8;border-radius:10px;margin:10px 0;cursor:pointer}
+.option:hover{border-color:var(--blue);background:#f7fbff}.option input{margin-top:3px;transform:scale(1.15)}.option span{line-height:1.35}
+.actions{display:flex;gap:10px;justify-content:space-between;margin-top:22px;flex-wrap:wrap}
+button{border:0;border-radius:9px;padding:12px 20px;font-size:15px;font-weight:bold;cursor:pointer}
+.primary{background:var(--blue);color:white}.secondary{background:#e8edf3;color:var(--navy)}button:disabled{opacity:.45;cursor:not-allowed}
+.small{font-size:13px;color:var(--muted);line-height:1.5}.hidden{display:none!important}
+.result{text-align:center;padding:16px}.score{font-size:46px;color:var(--green);font-weight:bold;margin:12px}
+.notice{padding:12px 14px;background:#fff7df;border-left:4px solid var(--gold);border-radius:7px;margin:16px 0;font-size:14px}
+footer{text-align:center;color:#8993a1;font-size:12px;margin:18px}
+@media(max-width:600px){.wrap{margin:0;padding:0}.hero,.panel{border-radius:0;padding:20px}.hero h1{font-size:22px}.question{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header class="hero">
+  <h1>Business Mathematics | Chapter 2</h1>
+  <p>Linear and Non-Linear Equations · Online Knowledge Check</p>
+ </header>
+ <main class="panel">
+  <section id="intro">
+   <div class="meta"><span class="pill">20 Questions</span><span class="pill">Multiple Choice</span><span class="pill">Suggested time: 20 minutes</span></div>
+   <h2>Before you begin</h2>
+   <p>Answer all 20 questions. Your score and completion time will be recorded in the class Google Sheet when the quiz is submitted.</p>
+   <label for="participant">Participant name *</label>
+   <input id="participant" type="text" maxlength="80" placeholder="Enter your name" required>
+   <label for="organisation">Department / organisation (optional)</label>
+   <input id="organisation" type="text" maxlength="100" placeholder="e.g. Operations, Engineering, Finance">
+   <div class="notice">Please use your own answers. Once you submit, your result will be recorded. You cannot change answers after submission.</div>
+   <button class="primary" id="startBtn">Start quiz</button>
+   <p class="small">The timer starts when you select “Start quiz”. Make sure you have a stable internet connection before submitting.</p>
+  </section>
+  <section id="quiz" class="hidden">
+   <div class="meta"><span class="pill" id="timer">Time: 00:00</span><span class="pill" id="answered">Answered: 0 / 20</span></div>
+   <div class="progress"><div class="bar" id="bar"></div></div>
+   <div class="qtop"><span id="qnumber">QUESTION 1 OF 20</span><span>Choose one answer</span></div>
+   <div class="question" id="qtext"></div>
+   <div id="options"></div>
+   <div class="actions">
+    <button class="secondary" id="prevBtn">Previous</button>
+    <button class="primary" id="nextBtn">Next question</button>
+    <button class="primary hidden" id="submitBtn">Submit quiz</button>
+   </div>
+   <p class="small">You may move between questions before submitting. All questions are worth 1 mark.</p>
+  </section>
+  <section id="result" class="hidden result">
+   <h2>Quiz submitted</h2>
+   <div class="score" id="score"></div>
+   <p id="summary"></p>
+   <div class="notice" id="saveStatus">Sending your result to the class Google Sheet…</div>
+   <p class="small">Thank you for participating in Chapter 2: Business Mathematics.</p>
+  </section>
+ </main>
+ <footer>Business Mathematics · Chapter 2 · Teaching and learning activity</footer>
+</div>
+<iframe name="hidden_iframe" id="hidden_iframe" class="hidden"></iframe>
+<script>
+// STEP 1: After deploying the Google Apps Script as a Web App, paste its /exec URL below.
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwW_B80-OJX1whzZkrtgpBCjANkCzrZhkjOFF8gMlKezjPhpq7wQKlZ0ld2eFSh1MkK/exec";
+
+const questions = [{"q": "Which statement best describes a linear equation?", "o": ["The highest power of the variable is 1", "The variable is always squared", "The variable appears only in a denominator", "It must contain a logarithm"], "a": 0}, {"q": "Solve: 2x + 10 = 50.", "o": ["x = 10", "x = 15", "x = 20", "x = 30"], "a": 2}, {"q": "A department has fixed cost RM2,000 and variable cost RM15 per unit. What is the total cost for 200 units?", "o": ["RM3,000", "RM5,000", "RM5,500", "RM7,000"], "a": 1}, {"q": "A total budget is RM18,000. A training provider charges RM2,000 fixed fee plus RM400 per participant. How many participants can be supported?", "o": ["20", "30", "40", "45"], "a": 2}, {"q": "Simplify and solve: 3(x + 20) = 180.", "o": ["20", "30", "40", "60"], "a": 2}, {"q": "In the cost model C = F + vQ, what does F represent?", "o": ["Selling price", "Fixed cost", "Variable cost per unit", "Quantity demanded"], "a": 1}, {"q": "What does quantity demanded generally do when price increases, assuming other factors remain constant?", "o": ["It increases", "It decreases", "It stays at zero", "It becomes equal to supply automatically"], "a": 1}, {"q": "Given Qd = 500 − 10P and Qs = 100 + 10P, what equation is used to find equilibrium?", "o": ["Qd + Qs = 0", "Qd = Qs", "P = Qd × Qs", "Qd − P = Qs"], "a": 1}, {"q": "For Qd = 500 − 10P and Qs = 100 + 10P, what is the equilibrium price?", "o": ["RM10", "RM15", "RM20", "RM25"], "a": 2}, {"q": "At the equilibrium price of RM20 in the previous model, what is the equilibrium quantity?", "o": ["100 units", "200 units", "300 units", "400 units"], "a": 2}, {"q": "If market price is below equilibrium, which situation is predicted by the basic supply-demand model?", "o": ["Surplus", "Shortage", "No demand", "Supply is always zero"], "a": 1}, {"q": "Which expression is a quadratic function?", "o": ["3x + 5", "4x² − 2x + 7", "5/x", "2ˣ"], "a": 1}, {"q": "Revenue is calculated as:", "o": ["Total cost minus fixed cost", "Price multiplied by quantity", "Profit multiplied by cost", "Fixed cost divided by quantity"], "a": 1}, {"q": "A business has revenue RM12,000 and total cost RM9,500. What is its profit?", "o": ["RM1,500", "RM2,000", "RM2,500", "RM3,500"], "a": 2}, {"q": "For a quadratic profit function π = −2Q² + 80Q − 500, which formula gives the quantity at the vertex?", "o": ["Q = −b/(2a)", "Q = b² − 4ac", "Q = a + b + c", "Q = 2a/b"], "a": 0}, {"q": "For π = −2Q² + 80Q − 500, at what quantity is profit maximised?", "o": ["10", "15", "20", "40"], "a": 2}, {"q": "What does an exponential model Y = A(1 + r)^t describe when r is positive?", "o": ["A fixed amount added each period", "A constant percentage growth over equal periods", "A straight-line decrease only", "A market equilibrium"], "a": 1}, {"q": "Energy use is 1,000 MWh and grows by 5% annually. What is the approximate use after 3 years?", "o": ["1,050 MWh", "1,150 MWh", "1,157.63 MWh", "1,500 MWh"], "a": 2}, {"q": "When is a natural logarithm useful in an exponential growth problem?", "o": ["When finding the starting value only", "When solving for the unknown time/exponent", "When adding two quantities", "When finding fixed cost"], "a": 1}, {"q": "A value grows from 1,000 to 1,500 at 5% annually. Approximately how long does it take?", "o": ["3.00 years", "5.00 years", "8.31 years", "10.50 years"], "a": 2}];
+let current=0, answers={}, startedAt=null, timerHandle=null, elapsed=0, submitted=false;
+const $=id=>document.getElementById(id);
+function fmt(sec){const m=Math.floor(sec/60),s=sec%60;return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+function updateTimer(){elapsed=Math.floor((Date.now()-startedAt)/1000);$('timer').textContent='Time: '+fmt(elapsed)}
+function render(){
+ const q=questions[current]; $('qnumber').textContent=`QUESTION ${current+1} OF ${questions.length}`;
+ $('qtext').textContent=q.q; $('options').innerHTML='';
+ q.o.forEach((opt,i)=>{
+  const lab=document.createElement('label');lab.className='option';
+  const radio=document.createElement('input');radio.type='radio';radio.name='answer';radio.value=i;radio.checked=answers[current]===i;
+  radio.addEventListener('change',()=>{answers[current]=i;updateProgress()});
+  const span=document.createElement('span');span.textContent=String.fromCharCode(65+i)+'. '+opt;
+  lab.append(radio,span);$('options').appendChild(lab);
+ });
+ $('prevBtn').disabled=current===0;
+ $('nextBtn').classList.toggle('hidden',current===questions.length-1);
+ $('submitBtn').classList.toggle('hidden',current!==questions.length-1);
+ updateProgress();
+}
+function updateProgress(){
+ const count=Object.keys(answers).length;
+ $('answered').textContent=`Answered: ${count} / ${questions.length}`;
+ $('bar').style.width=(count/questions.length*100)+'%';
+}
+$('startBtn').addEventListener('click',()=>{
+ if(!$('participant').value.trim()){alert('Please enter your name before starting.');$('participant').focus();return}
+ if(GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')){alert('The quiz administrator must connect the Google Sheet first. Please contact your trainer.');return}
+ startedAt=Date.now();timerHandle=setInterval(updateTimer,1000);
+ $('intro').classList.add('hidden');$('quiz').classList.remove('hidden');render();
+});
+$('prevBtn').addEventListener('click',()=>{if(current>0){current--;render()}});
+$('nextBtn').addEventListener('click',()=>{if(current<questions.length-1){current++;render()}});
+$('submitBtn').addEventListener('click',()=>{
+ const unanswered=questions.length-Object.keys(answers).length;
+ if(unanswered>0 && !confirm(`You have ${unanswered} unanswered question(s). Submit anyway?`))return;
+ if(!confirm('Submit your quiz now? You cannot change your answers afterwards.'))return;
+ submitQuiz();
+});
+function submitQuiz(){
+ if(submitted)return;submitted=true;clearInterval(timerHandle);updateTimer();
+ const score=questions.reduce((sum,q,i)=>sum+(answers[i]===q.a?1:0),0);
+ const result={name:$('participant').value.trim(),organisation:$('organisation').value.trim(),score:score,total:questions.length,timeSeconds:elapsed,
+ submittedAt:new Date().toISOString(),answers:questions.map((q,i)=>answers[i]===undefined?'':String.fromCharCode(65+answers[i])).join(', ')};
+ $('quiz').classList.add('hidden');$('result').classList.remove('hidden');
+ $('score').textContent=`${score} / ${questions.length}`;
+ $('summary').textContent=`${Math.round(score/questions.length*100)}% · Completion time: ${fmt(elapsed)}`;
+ const form=document.createElement('form');form.method='POST';form.action=GOOGLE_SCRIPT_URL;form.target='hidden_iframe';
+ const payload=document.createElement('input');payload.type='hidden';payload.name='payload';payload.value=JSON.stringify(result);form.appendChild(payload);
+ document.body.appendChild(form);form.submit();form.remove();
+ $('saveStatus').textContent='Your result has been sent to the Google Sheet. If the trainer’s sheet does not show it shortly, please inform the trainer.';
+}
+</script>
+</body>
+</html>
